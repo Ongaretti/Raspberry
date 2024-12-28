@@ -20,4 +20,6 @@ GPIO.setup(pin, GPIO.OUT / GPIO.IN)       #dichiari pin come output o input
 #COMANDI "loop"
 
 GPIO.output(pin, GPIO.HIGH / GPIO.LOW)    #assegna valore alto o basso al pin
+GPIO.input(pin)                           #leggi valore del pin
+
 time.sleep(1)                             #delay in secondi
