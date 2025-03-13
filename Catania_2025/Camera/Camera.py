@@ -3,11 +3,13 @@ from time import sleep
 import numpy as np 
 import cv2 
 
+path = '/home/pi/Desktop/Raspberry/Catania_2025/image.jpg'  # Percorso in cui salvare la foto
+
 color = "Undefined"
 a = 1
 
 camera = Picamera2()
-camera_config = camera.create_still_configuration({"size": (640, 480)})
+camera_config = camera.create_still_configuration({"size": (1920, 1080)})  # Risoluzionw 1920x1080
 camera.configure(camera_config)
 
 def elabora_immagine(img1):
@@ -54,17 +56,17 @@ def elabora_immagine(img1):
 
 while a == 1:
    
-   camera.start()
-   sleep(2)  # Attendi che la fotocamera si avvii
-   camera.capture_file('/home/pi/Desktop/Raspberry/Catania_2025/image.jpg')
-   camera.stop()
+   camera.start()             # Avvia la fotocamera
+   sleep(1)                   # Attendi che la fotocamera si avvii
+   camera.capture_file(path)  # Salva l'immagine nella cartella
+   camera.stop()              # Arresta la fotocamera
    
-   img1 = cv2.imread('/home/pi/Desktop/Raspberry/Catania_2025/image.jpg')
+   img1 = cv2.imread(path)    # Leggi l'immagine salvata
 
-   elabora_immagine(img1)
+   elabora_immagine(img1)     # Ricava colore
    print(color)
 
    a += 1
    
-   sleep(1)  # Aggiunto per evitare un ciclo infinito troppo veloce
+   sleep(1)                   # Aggiunto per evitare un ciclo infinito troppo veloce
 
