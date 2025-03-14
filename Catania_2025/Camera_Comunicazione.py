@@ -2,6 +2,7 @@ from picamera2 import Picamera2
 from time import sleep
 import numpy as np 
 import cv2 
+import serial
 
 path = '/home/pi/Desktop/Raspberry/Catania_2025/image.jpg'  # Percorso in cui salvare la foto
 
@@ -9,7 +10,7 @@ color = "Undefined"
 a = 1
 
 camera = Picamera2()
-camera_config = camera.create_still_configuration({"size": (1920, 1080)})  # Risoluzionw 1920x1080
+camera_config = camera.create_still_configuration({"size": (1920, 1080)})  # Risoluzione 1920x1080
 camera.configure(camera_config)
 
 def elabora_immagine(img1):
@@ -54,11 +55,6 @@ def elabora_immagine(img1):
       else:
          color = b"RED"
 
-import serial
-
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
-ser.reset_input_buffer()
-
 def send(value):
    """Invia un messaggio e aspetta conferma 'ok' da Arduino."""
    while True:
@@ -76,20 +72,33 @@ def receive():
          ser.write(b"ok\n")  # Conferma la ricezione
          return line
       
-while True:
+if __name__ == '__main__':
    
-   if receive() == "rileva":
-      
-      camera.start()             # Avvia la fotocamera
-      sleep(1)                   # Attendi che la fotocamera si avvii
-      camera.capture_file(path)  # Salva l'immagine nella cartella
-      camera.stop()              # Arresta la fotocamera
-      
-      img1 = cv2.imread(path)    # Leggi l'immagine salvata
+   try:   
+      ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+      ser.reset_input_buffer()
+   except serial.SerialException as e:
+         print(f"Errore di connessione seriale: {e}")
+         exit(1)
+   
+   while True:
+   
+      if receive() == "rileva":
+         
+         camera.start()             # Avvia la fotocamera
+         sleep(0.5)                 # Attendi che la fotocamera si avvii
+         camera.capture_file(path)  # Salva l'immagine nella cartella
+         camera.stop()              # Arresta la fotocamera
+         
+         img1 = cv2.imread(path)    # Leggi l'immagine salvata
+         
+         if img1 is None:
+            print("Errore: Immagine non trovata")
+            continue
 
-      elabora_immagine(img1)     # Ricava colore
-      print(color)
-      
-      send(color)
-      
-   sleep(0.1)
+         elabora_immagine(img1)     # Ricava colore
+         print(f"Colore rilevato: {color}")
+         
+         send(color)
+         
+      sleep(0.1)
