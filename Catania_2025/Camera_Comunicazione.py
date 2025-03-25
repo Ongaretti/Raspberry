@@ -61,11 +61,11 @@ def elabora_immagine(img1):
    sat_value = int(mean_color[1])
    value_value = int(mean_color[2])
 
-   if hue_value < 5 or hue_value > 135:
+   if hue_value < 10 or hue_value > 135:
       color = "RED"
-   elif hue_value < 33:
+   elif hue_value < 40:
       color = "YELLOW"
-   elif hue_value < 73:
+   elif hue_value < 93:
       color = "GREEN"
    elif hue_value < 135:
       color = "BLUE"
@@ -106,16 +106,16 @@ if __name__ == '__main__':
       if receive() == "rileva":
          
          camera.start()              # Avvia la fotocamera
-         sleep(1)                    # Attendi che la fotocamera si avvii
+         sleep(0.1)                    # Attendi che la fotocamera si avvii
          
          camera.capture_file(path0)  # Salva l'immagine nella cartella
-         sleep(0.1)
+         sleep(0.05)
          camera.capture_file(path1)  # Salva l'immagine nella cartella
-         sleep(0.1)
+         sleep(0.05)
          camera.capture_file(path2)
-         sleep(0.1)
+         sleep(0.05)
          camera.capture_file(path3)
-         sleep(0.1)
+         sleep(0.05)
          camera.capture_file(path4)
          
          camera.stop()               # Arresta la fotocamera
@@ -135,4 +135,4 @@ if __name__ == '__main__':
          
          send(color)
          
-      sleep(0.1)
+      sleep(0.05)

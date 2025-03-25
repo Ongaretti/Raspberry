@@ -10,7 +10,7 @@ path3 = '/home/pi/Desktop/Raspberry/Catania_2025/image3.jpg'
 path4 = '/home/pi/Desktop/Raspberry/Catania_2025/image4.jpg'
 
 color = "Undefined"
-a = 1
+a = 0
 mean_color = [0, 0, 0]
 
 camera = Picamera2()
@@ -61,11 +61,11 @@ def elabora_immagine(img0, img1, img2, img3, img4):
    sat_value = int(mean_color[1])
    value_value = int(mean_color[2])
 
-   if hue_value < 5 or hue_value > 135:
+   if hue_value < 10 or hue_value > 135:
       color = "RED"
-   elif hue_value < 33:
+   elif hue_value < 40:
       color = "YELLOW"
-   elif hue_value < 73:
+   elif hue_value < 93:
       color = "GREEN"
    elif hue_value < 135:
       color = "BLUE"
@@ -73,32 +73,32 @@ def elabora_immagine(img0, img1, img2, img3, img4):
    print(hue_value, sat_value, value_value)
 
 while True:
-   
-   camera.start()              # Avvia la fotocamera
-   sleep(1)                    # Attendi che la fotocamera si avvii
-   
-   camera.capture_file(path0)  # Salva l'immagine nella cartella
-   sleep(0.1)
-   camera.capture_file(path1)  # Salva l'immagine nella cartella
-   sleep(0.1)
-   camera.capture_file(path2)
-   sleep(0.1)
-   camera.capture_file(path3)
-   sleep(0.1)
-   camera.capture_file(path4)
-   
-   camera.stop()               # Arresta la fotocamera
-   
-   img0 = cv2.imread(path0)    # Leggi l'immagine salvata
-   img1 = cv2.imread(path1)
-   img2 = cv2.imread(path2)
-   img3 = cv2.imread(path3)
-   img4 = cv2.imread(path4)
 
-   elabora_immagine(img0, img1, img2, img3, img4)      # Ricava colore e fai la media delle immagini
-   print(color)
-
-   a += 1
+   if input() == "A":
    
-   sleep(1)                   # Aggiunto per evitare un ciclo infinito troppo veloce
+      camera.start()              # Avvia la fotocamera
+      sleep(0.5)                    # Attendi che la fotocamera si avvii
+      
+      camera.capture_file(path0)  # Salva l'immagine nella cartella
+      sleep(0.1)
+      camera.capture_file(path1)  # Salva l'immagine nella cartella
+      sleep(0.1)
+      camera.capture_file(path2)
+      sleep(0.1)
+      camera.capture_file(path3)
+      sleep(0.1)
+      camera.capture_file(path4)
+      
+      camera.stop()               # Arresta la fotocamera
+      
+      img0 = cv2.imread(path0)    # Leggi l'immagine salvata
+      img1 = cv2.imread(path1)
+      img2 = cv2.imread(path2)
+      img3 = cv2.imread(path3)
+      img4 = cv2.imread(path4)
+
+      elabora_immagine(img0, img1, img2, img3, img4)      # Ricava colore e fai la media delle immagini
+      print(color)
+
+      a += 1
 
