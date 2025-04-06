@@ -7,7 +7,6 @@ path0 = '/home/pi/Desktop/Raspberry/Catania_2025/image0.jpg'  # Percorso in cui 
 path1 = '/home/pi/Desktop/Raspberry/Catania_2025/image1.jpg'  # Percorso in cui salvare la foto
 
 color = "Undefined"
-a = 0
 mean_color = [0, 0, 0]
 
 camera = Picamera2()
@@ -75,7 +74,5 @@ while True:
       elabora_immagine(img0, img1)      # Ricava colore e fai la media delle immagini
       print(color)
 
-      a += 1
-   
       sleep(5)
 
