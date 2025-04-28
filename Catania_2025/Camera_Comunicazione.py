@@ -47,13 +47,13 @@ def elabora_immagine(img0, img1):
    value_value = int(mean_color[2])
 
    if hue_value < 10 or hue_value > 135:
-      color = b"rosso"
+      color = b"r"
    elif hue_value < 58:
-      color = b"giallo"
+      color = b"g"
    elif hue_value < 93:
-      color = b"verde"
+      color = b"v"
    elif hue_value < 135:
-      color = b"blu"
+      color = b"b"
          
    print(hue_value, sat_value, value_value)
 
