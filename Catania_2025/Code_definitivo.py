@@ -46,7 +46,7 @@ def elabora_immagine(img0, img1):
    sat_value = int(mean_color[1])
    value_value = int(mean_color[2])
 
-   if hue_value <= 20 or hue_value >= 118 or (sat_value > 230 and value_value > 190 and hue_value < 100):
+   if hue_value <= 18 or hue_value >= 118 or (sat_value > 230 and value_value > 190 and hue_value < 100):
       color = b"r"
    elif hue_value <= 58:
       color = b"g"
@@ -89,33 +89,38 @@ if __name__ == '__main__':
    
    send(b"j")
    
+   receive()
+   sleep(10)
+   
+   
 while True:
-      msg = receive()
-      print(msg)
-              
-      if msg == "rileva":
-         
-         print("if")
-         camera.start()              # Avvia la fotocamera
-         sleep(0.5)                  # Attendi che la fotocamera si avvii
-         
-         camera.capture_file(path0)  # Salva l'immagine nella cartella
-         sleep(0.1)
-         camera.capture_file(path1)  # Salva l'immagine nella cartella
-         
-         camera.stop()               # Ferma la fotocamera
-         print("scattata")
-         img0 = cv2.imread(path0)    # Leggi l'immagine salvata
-         img1 = cv2.imread(path1)
+   
+   msg = receive()
+   print(msg)
+            
+   if msg == "rileva":
+      
+      print("if")
+      camera.start()              # Avvia la fotocamera
+      sleep(0.5)                  # Attendi che la fotocamera si avvii
+      
+      camera.capture_file(path0)  # Salva l'immagine nella cartella
+      sleep(0.1)
+      camera.capture_file(path1)  # Salva l'immagine nella cartella
+      
+      camera.stop()               # Ferma la fotocamera
+      print("scattata")
+      img0 = cv2.imread(path0)    # Leggi l'immagine salvata
+      img1 = cv2.imread(path1)
 
-         elabora_immagine(img0, img1)      # Ricava colore e fai la media delle immagini
-         
-         print(color)
-         send(color)
-         print("inviato")
-         
-         sleep(1)
-         
-         print(receive())
-         
-      sleep(0.05)
+      elabora_immagine(img0, img1)      # Ricava colore e fai la media delle immagini
+      
+      print(color)
+      send(color)
+      print("inviato")
+      
+      sleep(1)
+      
+      print(receive())
+      
+   sleep(0.05)
